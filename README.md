@@ -31,7 +31,7 @@ terragrunt destroy
 ```
 O Terragrunt encaminhará quase todos os comandos, argumentos e opções diretamente para o Terraform, mas com base nas configurações do seu arquivo terragrunt.hcl.
 
-Procure a referencia do arquivo na docmentação oficial: <https://terragrunt.gruntwork.io/docs/getting-started/quick-start/>
+Procure a referencia do arquivo na documentação oficial: <https://terragrunt.gruntwork.io/docs/getting-started/quick-start/>
 
 | Canal | Link |
 | ------ | ------ |

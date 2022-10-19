@@ -1,0 +1,5 @@
+terragrunt apply --auto-approve \
+  -var env=$ENV_SUFFIX \ 
+  -var tf_master_key=$TF_MASTER_ACCESS_KEY \
+  -var tf_master_secret_key=$TM_MASTER_ACCOUNT_ACCESS_KEY_ID \
+  -var region=$AWS_DEFAULT_REGION

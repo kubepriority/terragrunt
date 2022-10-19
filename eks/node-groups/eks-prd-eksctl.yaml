@@ -1,0 +1,48 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-prd
+  region: sa-east-1
+
+vpc:
+  id: "vpc-0910478988f93e84b"  # (optional, must match VPC ID used for each subnet below)
+  cidr: "10.221.0.0/21"       # (optional, must match CIDR used by the given VPC)
+  securityGroup: "sg-093aeb362fbe074cc"
+  subnets:
+    private:
+      sa-east-1a:
+        id: "subnet-0dfe5d80e17b090e4"
+        cidr: "10.221.0.0/24" # (optional, must match CIDR used by the given subnet)
+
+      sa-east-1b:
+        id: "subnet-0dd5f28182e50d358"
+        cidr: "10.221.1.0/24"  # (optional, must match CIDR used by the given subnet)
+
+      sa-east-1c:
+        id: "subnet-026f64733075528fd"
+        cidr: "10.221.2.0/24"   # (optional, must match CIDR used by the given subnet)
+
+
+managedNodeGroups:
+  - name: prd
+    ami: ami-0d8a68b33315ee31d
+    instanceType: t3.xlarge
+    privateNetworking: true
+    desiredCapacity: 3
+    disableIMDSv1: true
+    labels: 
+      prod: "true"
+      role: storage-node
+      ingress: "true"
+    targetGroupARNs:
+      - arn:aws:elasticloadbalancing:sa-east-1:066572319538:targetgroup/alb-eks-prd-ingress-https/7c91f5f65535527e
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh eks-prd \
+        --kubelet-extra-args '--max-pods=40' \
+        --b64-cluster-ca "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeE1URXdNekUzTWpnd05sb1hEVE14TVRFd01URTNNamd3Tmxvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTGpjCnR5NVpyTEFpS1g0QWRZYTdIMmJBTmpxdFlQSWgwb09HR2lUSEM5Sks1QkwzczBZTkppTHNjSmFIRzdtR05tT28KdnZYeG9ObXBDMkJRUE9sMUpxRXQ5dmQxSm1rVHZwK2sxZUJxVEQ5Y3R5UmZxa3FPM3VubkNSKzcvQUQwQkFhMApkS0pLQ01YM0w2NGQ2OWhmSnV3dHZnWHNnVklvNG9uZ2NIb2ZXM014Y2VGWWNNdmEwNWs4eHJoa3UxWHJYalFOClkzbnN1djRQQzNhcC83UGcxeTFoRFVRbFY2TnNrM2lacEkyVDJSTWozN29VUGhSMm16RVVscUlKemhkcC9oUXQKL3kvN3RDVDg1T3FidGhqbDNyenUvSm9BSll5SFE2bXljbzRuSmhXZHY3dlgyZ3NZakZJTVcyUStsUmVqWGY2QwpqOVNpTnVTTkkzeGMyU3U0YVM4Q0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZEWXgxS1kzV1RnYXlzTnUyWXQ5TG9GZHRxN0NNQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFBdVhOVGVKYW1uWWRjZjA5SG11N29NTnhhLzB5bmhlaUNXVjZtUElWVEtkSlpISVFBQwpnMSszY1g3bXBVN25ydEN3Z0tlUzRudmlmN29sNllmR2loMHlCNDU3VTdZV1J2MSs0WjV5eUsyd0xXWjd4ZHFaCkRKRWFTekZmc1Q1cU92Q2QvSktFZElOOFZlYy9JbXdFeUhLTnR6VU52eEJPdDExWk5VcndjL09zMFdRb0lITzUKS2hvVXAyN0pYZm9qVGhoM0wyWE5FNnY1S3NySXZMMUZwWjJpYXI2SExDV0pRTmx4VkxDaDRsbFNHRk9Bc3pKbwp6UGNndW51ZHBmTmIrWHBlOEsxQzNJZlgzYXhJWnJCU05QcHROZzVjY1dsM0g0OE5EOHd1NGpKS29lLzIvZkJMCnRiTDUyUUM5aVpmeW40dmZvWEFIUnZqSkVZZ1NyM2x2MkRKaAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==" \
+        --apiserver-endpoint "https://925AECA5C26AEFCA249679BD38A20E19.yl4.sa-east-1.eks.amazonaws.com" \
+        --dns-cluster-ip 172.20.0.10 \
+        --use-max-pods false

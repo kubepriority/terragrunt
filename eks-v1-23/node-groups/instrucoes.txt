@@ -1,0 +1,53 @@
+REF. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group
+REF. https://github.com/weaveworks/eksctl/tree/main/examples
+
+# Criar nodegroups com ekscrl
+eksctl create nodegroup --config-file=01-type-m5-nodegroups.yaml --skip-outdated-addons-check=true
+
+eksctl create nodegroup --config-file=02-type-t3-nodegroups.yaml --skip-outdated-addons-check=true
+
+eksctl create nodegroup --config-file=03-type-tg4-nodegroups.yaml --skip-outdated-addons-check=true
+
+# List Nodegroups com eksctl
+
+eksctl get nodegroups --cluster=ex-eks-v123
+
+# Remover nodegroups com eksctl
+eksctl delete nodegroup -f 01-type-m5-nodegroups.yaml --drain --approve
+
+# Remover nodegroup of stacks
+
+eksctl delete nodegroup   --cluster ex-eks-v123   --region us-east-1   --name node3-group-t4g
+
+
+
+# Delete Existente Stacks CloudFortmation
+
+aws cloudformation list-stacks
+
+aws cloudformation delete-stack --stack-name
+
+
+# Supported IAM add-on policies
+
+REF. https://eksctl.io/usage/iam-policies/
+
+
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.xlarge
+    desiredCapacity: 1
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        externalDNS: true
+        certManager: true
+        appMesh: true
+        appMeshPreview: true
+        ebs: true
+        fsx: true
+        efs: true
+        awsLoadBalancerController: true
+        xRay: true
+        cloudWatch: true

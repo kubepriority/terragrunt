@@ -27,4 +27,3 @@ data "aws_subnet" "public_subnet" {
 output "subnet_cidr_blocks" {
   value = ["${data.aws_subnet.public_subnet.*.id}"]
 }
-

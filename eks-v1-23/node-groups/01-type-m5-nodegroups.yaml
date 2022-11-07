@@ -1,0 +1,75 @@
+# An advanced example of ClusterConfig object with customised nodegroups:
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ex-eks-v1-23
+  region: us-east-1
+
+vpc:
+  id: "vpc-0d9dbaf09b8672759"  # (optional, must match VPC ID used for each subnet below)
+  cidr: "10.217.0.0/18"       # (optional, must match CIDR used by the given VPC)
+  #sharedNodeSecurityGroup: "sg-0990e8e61e561181b"
+  securityGroup: "sg-0ab799946a693a6c3"
+  subnets:
+    private:
+      us-east-1a:
+        id: "subnet-0d756062fb1a1b8f4"
+        cidr: "10.217.0.0/24" # (optional, must match CIDR used by the given subnet)
+
+      us-east-1b:
+        id: "subnet-02a050678bf859b5b"
+        cidr: "10.217.4.0/24"  # (optional, must match CIDR used by the given subnet)
+
+      us-east-1c:
+        id: "subnet-0a29e8d328878cf49"
+        cidr: "10.217.8.0/24"   # (optional, must match CIDR used by the given subnet)
+
+managedNodeGroups:
+  - name: node01-group-m5
+    instanceType: m5.large
+    minSize: 1
+    maxSize: 8
+    volumeSize: 20
+    volumeType: gp3
+    desiredCapacity: 1
+    ami: ami-09d3b3274b6c5d4aa
+    amiFamily: AmazonLinux2
+    # forces the use of IMDSv2 tokens
+    disableIMDSv1: true
+    ssh:
+      allow: true
+      publicKeyPath: ~/.ssh/id_rsa.pub
+    labels:
+      nodegroup-type: m5-large
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh ex-eks-v1-23 --container-runtime containerd
+    #overrideBootstrapCommand: |
+    #  #!/bin/bash
+    #  /etc/eks/bootstrap.sh ex-eks-v123 \
+    #    --kubelet-extra-args '--max-pods=40' \
+    #    --b64-cluster-ca "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvakNDQWVhZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1UQXpNREV6TVRVeU1Wb1hEVE15TVRBeU56RXpNVFV5TVZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTXBJCm8rWVh5dEpuQXpETmFZSG9tSklheWszb3VvSjRIOXNkdTJWem1Wcm9xVTdsc0dUeHBCQ0ttU0tFUGtYUzNPRjkKYXcxY3J4VmRvUDk0TDIzWHlqWlRIRnoxbkp2K0s4aDdRRDRjZjVqanE5aVowUG9XcFVYSFFXbWt3UkdIR0JQUApFSzBudVlzckF6WkM0N1NITy9rUStnWVN2Z2pqY3NWYW5sUmwvVHIwbjlBNjhuL3VxU3R0Sk05SzEyTnVsMHBECjdoQVYwb3BZMUpiM1pRNkxnTFVEc1VoaUlVZkhGZTVycmF3VHM4RTd4ZkUrSFhZUDRHbm5lb3YvOEVMVXg3emkKc0VINEFHd0JOeER3bG5jTW1YcFZTeTBKNHdBa2JpWU9rSmszb2JLaDJyd1orZC9qaGNYemxiOVRXWHZzbHhhcAo4azNDbjl4ekhHN3luNExuY0ZzQ0F3RUFBYU5aTUZjd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZOL2VmdGpvSDBrRVA3Q0lYanpjcmFPMUJybXBNQlVHQTFVZEVRUU8KTUF5Q0NtdDFZbVZ5Ym1WMFpYTXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBTDltb3JJYTArRElhekQxZUtrawppNkExQ1RUek13dlk5T3dZNzFkN240ZEszdUMweU8ybVIyN1liMktOc2xhZVZSOVMveXR6SE9nZmF2YTVsNzU3CjgzZlBHR1JXL3Y3OWRiQjArdUZQZ0VtL1dzNjlPS3gvS2h1QURKWkdxeWE1YXVURkRjVWpyOGdwVGpJM1FPQnEKWXlvcklEZlU0UG5BL2NoUDdUbnZlUHNiVVZ3M1VhTW9SbWZDb2RwcHBCdm5Wcktib1ZqWEhxRU5ZLy9oSHdYRQpVa3o4bllDRVh3QkxsYTV6RGxaV3NXNDM0WER6QzZaMVNJZTFTZTNpaW9iTGpYcUdvSmVsVThJS3ZlUTlOVjBEClBFM3lIOWdMOVFlcHJBb3loYW84cC9zcXdkSzNCVGNSUkp2Tkg4dytNZDFPYjV3V3BFdzR5dmUzQngrZTZ3SDkKL0VnPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==" \
+    #    --apiserver-endpoint "https://217E8411A283FEEA657CE3C37876AD31.gr7.us-east-1.eks.amazonaws.com" \
+    #    --dns-cluster-ip 172.20.0.10 \
+    #    --use-max-pods false
+    #iam:
+    #  attachPolicyARNs:
+    #    - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+    #    - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+    #    - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+    #    - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+    #  withAddonPolicies:
+    #    autoScaler: true
+    #    externalDNS: true
+    #    certManager: true
+    #    ebs: true
+    #    fsx: true
+    #    efs: true
+    #    awsLoadBalancerController: true
+    #    cloudWatch: true
+    privateNetworking: true
+
+# cluster AZs must be set explicitly for single AZ nodegroup example to work
+availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]

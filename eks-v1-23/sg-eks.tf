@@ -1,6 +1,5 @@
-
 resource "aws_security_group" "sg-eks-cluster" {
-  name        = "SG-EKS-PRD"
+  name        = "${local.name}-node"
   description = "Cluster communication with worker nodes"
   vpc_id      = data.terraform_remote_state.remote.outputs.vpc_id
 

@@ -24,11 +24,9 @@ remote_state {
   config = {
     key = "${path_relative_to_include()}/terraform.tfstate"
     encrypt        = true
-    bucket         = "vpc-terraform-kubepriority-state"
+    bucket         = "vpc-terraform-eds-lab-state"
     region         = "us-east-1"
-    dynamodb_table = "kubepriority-tf-lock-table"
+    dynamodb_table = "eds-lab-tf-lock-table"
 
   }
 }
-
-

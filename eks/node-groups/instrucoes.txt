@@ -1,7 +1,0 @@
-REF. https://github.com/weaveworks/eksctl/tree/main/examples
-
-# Criar nodegroups com ekscrl
-eksctl create nodegroup --config-file=eks-group-nodes-eksctl.yaml
-
-# Remover nodegroups com eksctl
-eksctl delete nodegroup -f eks-workers-eksctl.yaml --drain

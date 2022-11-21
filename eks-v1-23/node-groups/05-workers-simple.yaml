@@ -45,12 +45,15 @@ managedNodeGroups:
     #  - arn:aws:elasticloadbalancing:eu-west-2:01234567890:targetgroup/target-group-1/abcdef0123456789
     iam:
       attachPolicyARNs:
-    #    - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
+        # EKS worker nodes require the following two policies at least
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        # Custom
         - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
-    #    - arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy
-    #    - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
-    #    - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-    #    - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+      #  - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
+      #  - arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy
+      #  - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
       withAddonPolicies:
         autoScaler: true
         externalDNS: true

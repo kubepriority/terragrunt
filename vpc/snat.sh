@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-# wait for eth1
+# wait for eth0
 while ! ip link show dev eth0; do
   sleep 1
 done
@@ -22,3 +22,4 @@ curl --retry 10 http://www.example.com
 
 # reestablish connections
 systemctl restart amazon-ssm-agent.service
+#

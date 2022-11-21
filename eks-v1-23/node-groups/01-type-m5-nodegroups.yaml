@@ -57,6 +57,7 @@ managedNodeGroups:
     #iam:
     #  attachPolicyARNs:
     #    - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+         - arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy
     #    - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
     #    - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
     #    - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
@@ -71,5 +72,5 @@ managedNodeGroups:
     #    cloudWatch: true
     privateNetworking: true
 
-# cluster AZs must be set explicitly for single AZ nodegroup example to work
-availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    # cluster AZs must be set explicitly for single AZ nodegroup example to work
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]

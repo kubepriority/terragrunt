@@ -8,22 +8,22 @@ metadata:
   region: us-east-1
 
 vpc:
-  id: "vpc-0d9dbaf09b8672759"  # (optional, must match VPC ID used for each subnet below)
+  id: "vpc-076c7f371ae14725f"  # (optional, must match VPC ID used for each subnet below)
   cidr: "10.217.0.0/18"       # (optional, must match CIDR used by the given VPC)
   #sharedNodeSecurityGroup: "sg-0990e8e61e561181b"
-  securityGroup: "sg-0ab799946a693a6c3"
+  securityGroup: "sg-06e28cb56a88530d9"
   subnets:
     private:
       us-east-1a:
-        id: "subnet-0d756062fb1a1b8f4"
+        id: "subnet-0730e1870288d48a4"
         cidr: "10.217.0.0/24" # (optional, must match CIDR used by the given subnet)
 
       us-east-1b:
-        id: "subnet-02a050678bf859b5b"
+        id: "subnet-015f3e059d7d6a48a"
         cidr: "10.217.4.0/24"  # (optional, must match CIDR used by the given subnet)
 
       us-east-1c:
-        id: "subnet-0a29e8d328878cf49"
+        id: "subnet-0bacbdc39b54545ee"
         cidr: "10.217.8.0/24"   # (optional, must match CIDR used by the given subnet)
 
 managedNodeGroups:

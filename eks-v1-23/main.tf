@@ -32,13 +32,17 @@ module "eks" {
     coredns = {
       resolve_conflicts = "OVERWRITE"
     }
+    aws-ebs-csi-driver  = {
+      resolve_conflicts = "OVERWRITE"
+    }
     kube-proxy = {
-      esolve_conflicts        = "OVERWRITE"
+      esolve_conflicts  = "OVERWRITE"
     }
     vpc-cni = {
-      resolve_conflicts        = "OVERWRITE"
+      resolve_conflicts = "OVERWRITE"
       #service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
     }
+
   }
 
 }

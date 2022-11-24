@@ -52,12 +52,12 @@ helm repo update
 
 # Install Rancher - AWS Load Balancer Controller
 
-helm install rancher rancher-latest/rancher --namespace cattle-system --set hostname=console.edsmulticloudtreinamento.com \
+helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system --set hostname=console.edsmulticloudtreinamento.com \
 --set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/scheme=internet-facing' \
 --set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/success-codes=200\,404\,301\,302' \
---set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/subnets=subnet-0c665da5443c093d8\,subnet-02b101a6a1bfd47fe\,subnet-012791bf4bc4ff3c6' \
+--set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/subnets=subnet-021058a96188b05c7\,subnet-01e19fdee53dd540f\,subnet-059f0f3e6dd38a2aa' \
 --set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/listen-ports=[{\"HTTP\": 80}\, {\"HTTPS\": 443}]' \
---set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/certificate-arn=arn:aws:acm:us-east-2:660661007217:certificate/273c49b4-6744-49da-a5e5-dc3e35486af8' \
+--set 'ingress.extraAnnotations.alb\.ingress\.kubernetes\.io/certificate-arn=arn:aws:acm:us-east-1:373548616758:certificate/f608dd76-fdaf-4c67-a11d-bfaf6aff7e5f' \
 --set 'ingress.extraAnnotations.kubernetes\.io/ingress\.class=alb'  --set replicas=1 --set tls=external --set bootstrapPassword=Changeme123! \
 --set privateCA=true
 

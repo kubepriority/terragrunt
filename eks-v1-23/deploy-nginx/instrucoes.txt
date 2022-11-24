@@ -1,0 +1,14 @@
+# Criando uma aplicação com KUbectl
+
+kubectl run nginx --image=nginx --port=80 --dry-run=client -o yaml
+
+
+# Criando uma Aplicação Utilizando os arquivos de Manifestos yaml
+
+kubectl apply -f nginx-svc.yaml
+kubectl apply -f nginx-deploy.yaml
+kubectl apply -f nginx-ingress.yaml
+
+#Alterando o service de ClusterIP para NodePort para utilização com AWS loadBalancer Controller
+
+kubectl -n cattle-system patch svc rancher -p '{"spec": {"type": "NodePort"}}'

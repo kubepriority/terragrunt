@@ -22,4 +22,3 @@ curl --retry 10 http://www.example.com
 
 # reestablish connections
 systemctl restart amazon-ssm-agent.service
-#

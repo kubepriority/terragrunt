@@ -76,8 +76,9 @@ resource "aws_security_group_rule" "ingress_any" {
 ## EIP Public
 
 resource "aws_network_interface" "this" {
-  subnet_id = module.vpc.public_subnets[0]
-  security_groups = [aws_security_group.this.id]
+  subnet_id          = module.vpc.public_subnets[0]
+  security_groups    = [aws_security_group.this.id]
+  source_dest_check  = false 
 
   tags = merge(var.tags, { "Name" = var.name })
 }
@@ -216,7 +217,7 @@ resource "aws_autoscaling_group" "this" {
         }
       }
     }
-
+    
   lifecycle {
     create_before_destroy = true
   }
